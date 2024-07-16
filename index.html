@@ -1,0 +1,2213 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Family Guy Episode Viewer</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: white;
+      }
+      h1 {
+        text-align: center;
+        color: #333;
+      }
+      .controls {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 20px;
+      }
+      select {
+        margin: 0 10px;
+        padding: 5px;
+        font-size: 16px;
+      }
+      #videoContainer {
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        background-color: #000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #fff;
+        font-size: 18px;
+      }
+      iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Family Guy Episode Viewer</h1>
+    <div class="controls">
+      <select id="seasonSelect">
+        <option value="">Select Season</option>
+      </select>
+      <select id="episodeSelect">
+        <option value="">Select Episode</option>
+      </select>
+    </div>
+    <div id="videoContainer">
+      <p>Please select a season and episode to watch.</p>
+    </div>
+
+    <script>
+      const episodes = {
+        "Season 1": [
+          {
+            episode: 1,
+            title: "Death Has a Shadow",
+            link: "https://short.ink/xzrFgB5Vm",
+          },
+          {
+            episode: 2,
+            title: "I Never Met the Dead Man",
+            link: "https://short.ink/vcjHbNTFb",
+          },
+          {
+            episode: 3,
+            title: "Chitty Chitty Death Bang",
+            link: "https://short.ink/reYeHWvGp",
+          },
+          {
+            episode: 4,
+            title: "Mind Over Murder",
+            link: "https://short.ink/UGboSjf8r",
+          },
+          {
+            episode: 5,
+            title: "A Hero Sits Next Door",
+            link: "https://short.ink/N6LcRsi7P",
+          },
+          {
+            episode: 6,
+            title: "The Son Also Draws",
+            link: "https://short.ink/nQTyFZp-8V",
+          },
+          {
+            episode: 7,
+            title: "Brian: Portrait of a Dog",
+            link: "https://short.ink/TMpV2FU6yW",
+          },
+        ],
+        "Season 2": [
+          {
+            episode: 1,
+            title: "Peter, Peter, Caviar Eater",
+            link: "https://short.ink/kCjUnTUAS",
+          },
+          {
+            episode: 2,
+            title: "Holy Crap",
+            link: "https://short.ink/5filqk7V5",
+          },
+          {
+            episode: 3,
+            title: "Da Boom",
+            link: "https://short.ink/1WZt2-NO6",
+          },
+          {
+            episode: 4,
+            title: "Brian in Love",
+            link: "https://short.ink/Vu64_xr6K",
+          },
+          {
+            episode: 5,
+            title: "Love Thy Trophy",
+            link: "https://short.ink/HtP1m2rVL",
+          },
+          {
+            episode: 6,
+            title: "Death Is a Bitch",
+            link: "https://short.ink/K0Gos4yN4",
+          },
+          {
+            episode: 7,
+            title: "The King Is Dead",
+            link: "https://short.ink/BenizGxeS",
+          },
+          {
+            episode: 8,
+            title: "I Am Peter, Hear Me Roar",
+            link: "https://short.ink/TiTpob2tI",
+          },
+          {
+            episode: 9,
+            title: "If I'm Dyin', I'm Lyin'",
+            link: "https://short.ink/m8CFsw77w",
+          },
+          {
+            episode: 10,
+            title: "Running Mates",
+            link: "https://short.ink/0kObOBFey",
+          },
+          {
+            episode: 11,
+            title: "A Picture Is Worth a 1,000 Bucks",
+            link: "https://short.ink/2NCce-E2a",
+          },
+          {
+            episode: 12,
+            title: "Fifteen Minutes of Shame",
+            link: "https://short.ink/JWzbBn4wR",
+          },
+          {
+            episode: 13,
+            title: "Road to Rhode Island",
+            link: "https://short.ink/Jv1ePkt48",
+          },
+          {
+            episode: 14,
+            title: "Let's Go to the Hop",
+            link: "https://short.ink/PlCzKT_hK",
+          },
+          {
+            episode: 15,
+            title: "Dammit Janet!",
+            link: "https://short.ink/BXIMun1M8",
+          },
+          {
+            episode: 16,
+            title: "There's Something About Paulie",
+            link: "https://short.ink/MOtHT5U6_",
+          },
+          {
+            episode: 17,
+            title: "He's Too Sexy for His Fat",
+            link: "https://short.ink/y8Tdh6ZOU",
+          },
+          {
+            episode: 18,
+            title: "E. Peterbus Unum",
+            link: "https://short.ink/31WRnQq8r",
+          },
+          {
+            episode: 19,
+            title: "The Story on Page One",
+            link: "https://short.ink/XVkOGwshm",
+          },
+          {
+            episode: 20,
+            title: "Wasted Talent",
+            link: "https://short.ink/vsRmq_oOA",
+          },
+          {
+            episode: 21,
+            title: "Fore, Father",
+            link: "https://short.ink/FU7GgjsYP",
+          },
+        ],
+        "Season 3": [
+          {
+            episode: 1,
+            title: "The Thin White Line",
+            link: "https://short.ink/m1VbbwdNsw",
+          },
+          {
+            episode: 2,
+            title: "Brian Does Hollywood",
+            link: "https://short.ink/XY4efWynU",
+          },
+          {
+            episode: 3,
+            title: "Mr. Griffin Goes to Washington",
+            link: "https://short.ink/hfMiqXOr3",
+          },
+          {
+            episode: 4,
+            title: "One If by Clam, Two If by Sea",
+            link: "https://short.ink/GHCTga8Cx",
+          },
+          {
+            episode: 5,
+            title: "And the Wiener Is...",
+            link: "https://short.ink/mhdzFZfRx",
+          },
+          {
+            episode: 6,
+            title: "Death Lives",
+            link: "https://short.ink/HExX4fW-8",
+          },
+          {
+            episode: 7,
+            title: "Lethal Weapons",
+            link: "https://short.ink/mzG5PtydP",
+          },
+          {
+            episode: 8,
+            title: "The Kiss Seen Around the World",
+            link: "https://short.ink/Yw7lT5hgN",
+          },
+          {
+            episode: 9,
+            title: "Mr. Saturday Knight",
+            link: "https://short.ink/dcnvObewMC",
+          },
+          {
+            episode: 10,
+            title: "A Fish out of Water",
+            link: "https://short.ink/9IeJhAinW",
+          },
+          {
+            episode: 11,
+            title: "Emission Impossible",
+            link: "https://short.ink/BenizGxeS",
+          },
+          {
+            episode: 12,
+            title: "To Love and Die in Dixie",
+            link: "https://short.ink/TiTpob2tI",
+          },
+          {
+            episode: 13,
+            title: "Screwed the Pooch",
+            link: "https://short.ink/m8CFsw77w",
+          },
+          {
+            episode: 14,
+            title: "Peter Griffin: Husband, Father...Brother?",
+            link: "https://short.ink/0kObOBFey",
+          },
+          {
+            episode: 15,
+            title: "Ready, Willing, and Disabled",
+            link: "https://short.ink/2NCce-E2a",
+          },
+          {
+            episode: 16,
+            title: "A Very Special Family Guy Freakin' Christmas",
+            link: "https://short.ink/JWzbBn4wR",
+          },
+          {
+            episode: 17,
+            title: "Brian Wallows and Peter's Swallows",
+            link: "https://short.ink/Jv1ePkt48",
+          },
+          {
+            episode: 18,
+            title: "From Method to Madness",
+            link: "https://short.ink/PlCzKT_hK",
+          },
+          {
+            episode: 19,
+            title: "Stuck Together, Torn Apart",
+            link: "https://short.ink/BXIMun1M8",
+          },
+          {
+            episode: 20,
+            title: "Road to Europe",
+            link: "https://short.ink/MOtHT5U6_",
+          },
+          {
+            episode: 21,
+            title: "Family Guy Viewer Mail #1",
+            link: "https://short.ink/y8Tdh6ZOU",
+          },
+          {
+            episode: 22,
+            title: "When You Wish Upon a Weinstein",
+            link: "https://short.ink/31WRnQq8r",
+          },
+        ],
+        "Season 4": [
+          {
+            episode: 1,
+            title: "North by North Quahog",
+            link: "https://short.ink/XY4efWynU",
+          },
+          {
+            episode: 2,
+            title: "Fast Times at Buddy Cianci Jr. High",
+            link: "https://short.ink/hfMiqXOr3",
+          },
+          {
+            episode: 3,
+            title: "Blind Ambition",
+            link: "https://short.ink/GHCTga8Cx",
+          },
+          {
+            episode: 4,
+            title: "Don't Make Me Over",
+            link: "https://short.ink/mhdzFZfRx",
+          },
+          {
+            episode: 5,
+            title: "The Cleveland–Loretta Quagmire",
+            link: "https://short.ink/HExX4fW-8",
+          },
+          {
+            episode: 6,
+            title: "Petarded",
+            link: "https://short.ink/mzG5PtydP",
+          },
+          {
+            episode: 7,
+            title: "Brian the Bachelor",
+            link: "https://short.ink/Yw7lT5hgN",
+          },
+          {
+            episode: 8,
+            title: "8 Simple Rules for Buying My Teenage Daughter",
+            link: "https://short.ink/dcnvObewMC",
+          },
+          {
+            episode: 9,
+            title: "Breaking Out Is Hard to Do",
+            link: "https://short.ink/9IeJhAinW",
+          },
+          {
+            episode: 10,
+            title: "Model Misbehavior",
+            link: "https://short.ink/BenizGxeS",
+          },
+          {
+            episode: 11,
+            title: "Peter's Got Woods",
+            link: "https://short.ink/TiTpob2tI",
+          },
+          {
+            episode: 12,
+            title: "Perfect Castaway",
+            link: "https://short.ink/m8CFsw77w",
+          },
+          {
+            episode: 13,
+            title: "Jungle Love",
+            link: "https://short.ink/0kObOBFey",
+          },
+          {
+            episode: 14,
+            title: "PTV",
+            link: "https://short.ink/2NCce-E2a",
+          },
+          {
+            episode: 15,
+            title: "Brian Goes Back to College",
+            link: "https://short.ink/JWzbBn4wR",
+          },
+          {
+            episode: 16,
+            title: "The Courtship of Stewie's Father",
+            link: "https://short.ink/Jv1ePkt48",
+          },
+          {
+            episode: 17,
+            title: "Fat Guy Strangler",
+            link: "https://short.ink/PlCzKT_hK",
+          },
+          {
+            episode: 18,
+            title: "The Father, the Son, and the Holy Fonz",
+            link: "https://short.ink/BXIMun1M8",
+          },
+          {
+            episode: 19,
+            title: "Brian Sings and Swings",
+            link: "https://short.ink/MOtHT5U6_",
+          },
+          {
+            episode: 20,
+            title: "Patriot Games",
+            link: "https://short.ink/y8Tdh6ZOU",
+          },
+          {
+            episode: 21,
+            title: "I Take Thee Quagmire",
+            link: "https://short.ink/31WRnQq8r",
+          },
+          {
+            episode: 22,
+            title: "Sibling Rivalry",
+            link: "https://short.ink/XVkOGwshm",
+          },
+          {
+            episode: 23,
+            title: "Deep Throats",
+            link: "https://short.ink/vsRmq_oOA",
+          },
+          {
+            episode: 24,
+            title: "Peterotica",
+            link: "https://short.ink/FU7GgjsYP",
+          },
+          {
+            episode: 25,
+            title: "You May Now Kiss the...Uh...Guy Who Receives",
+            link: "https://short.ink/M1epe-IhL",
+          },
+          {
+            episode: 26,
+            title: "Petergeist",
+            link: "https://short.ink/7tXyT8jF4",
+          },
+          {
+            episode: 27,
+            title: "The Griffin Family History",
+            link: "https://short.ink/JRzFS8tpb",
+          },
+          {
+            episode: 28,
+            title: "Stewie B. Goode",
+            link: "https://short.ink/JYRIf6xP_",
+          },
+          {
+            episode: 29,
+            title: "Bango Was His Name, Oh!",
+            link: "https://short.ink/WbXt-DRbx",
+          },
+          {
+            episode: 30,
+            title: "Stu & Stewie's Excellent Adventure",
+            link: "https://short.ink/MCPGbVeiR",
+          },
+        ],
+        "Season 5": [
+          {
+            episode: 1,
+            title: "Stewie Loves Lois",
+            link: "https://short.ink/jYVGopVsF",
+          },
+          {
+            episode: 2,
+            title: "Mother Tucker",
+            link: "https://short.ink/CRvPY6TcU",
+          },
+          {
+            episode: 3,
+            title: "Hell Comes to Quahog",
+            link: "https://short.ink/BGOv4sa8R",
+          },
+          {
+            episode: 4,
+            title: "Saving Private Brian",
+            link: "https://short.ink/5r9JGYmuI",
+          },
+          {
+            episode: 5,
+            title: "Whistle While Your Wife Works",
+            link: "https://short.ink/85XBkB1su",
+          },
+          {
+            episode: 6,
+            title: "Prick Up Your Ears",
+            link: "https://short.ink/1HvzS6a2g",
+          },
+          {
+            episode: 7,
+            title: "Chick Cancer",
+            link: "https://short.ink/SCXpKlMbI",
+          },
+          {
+            episode: 8,
+            title: "Barely Legal",
+            link: "https://short.ink/Q70vwzs4E",
+          },
+          {
+            episode: 9,
+            title: "Road to Rupert",
+            link: "https://short.ink/YHZ8ic_ao",
+          },
+          {
+            episode: 10,
+            title: "Peter's Two Dads",
+            link: "https://short.ink/2ZY3h4KtO",
+          },
+          {
+            episode: 11,
+            title: "The Tan Aquatic with Steve Zissou",
+            link: "https://short.ink/nI1itFlmE",
+          },
+          {
+            episode: 12,
+            title: "Airport '07",
+            link: "https://short.ink/Q1Jozoyy6",
+          },
+          {
+            episode: 13,
+            title: "Bill and Peter's Bogus Journey",
+            link: "https://short.ink/E4RMJ7gbx",
+          },
+          {
+            episode: 14,
+            title: "No Meals on Wheels",
+            link: "https://short.ink/iy3QzXxD3",
+          },
+          {
+            episode: 15,
+            title: "Boys Do Cry",
+            link: "https://short.ink/vl9Jb8NpQ",
+          },
+          {
+            episode: 16,
+            title: "No Chris Left Behind",
+            link: "https://short.ink/xLGPnEw5H",
+          },
+          {
+            episode: 17,
+            title: "It Takes a Village Idiot, and I Married One",
+            link: "https://short.ink/V2T9sxvZp",
+          },
+          {
+            episode: 18,
+            title: "Meet the Quagmires",
+            link: "https://short.ink/C50BhUkiW",
+          },
+        ],
+        "Season 6": [
+          {
+            episode: 1,
+            title: "Blue Harvest",
+            link: "https://short.ink/8HbKrca7Y",
+          },
+          {
+            episode: 2,
+            title: "Movin' Out (Brian's Song)",
+            link: "https://short.ink/V9PI34n1u",
+          },
+          {
+            episode: 3,
+            title: "Believe It or Not, Joe's Walking on Air",
+            link: "https://short.ink/1JqGjYuwV",
+          },
+          {
+            episode: 4,
+            title: "Stewie Kills Lois",
+            link: "https://short.ink/gTQKX7iHC",
+          },
+          {
+            episode: 5,
+            title: "Lois Kills Stewie",
+            link: "https://short.ink/JyxumUraQ",
+          },
+          {
+            episode: 6,
+            title: "Padre de Familia",
+            link: "https://short.ink/KF6UyVX6G",
+          },
+          {
+            episode: 7,
+            title: "Peter's Daughter",
+            link: "https://short.ink/YT3OiaU71",
+          },
+          {
+            episode: 8,
+            title: "McStroke",
+            link: "https://short.ink/VgPxi_KBR",
+          },
+          {
+            episode: 9,
+            title: "Back to the Woods",
+            link: "https://short.ink/sNMYwXetR",
+          },
+          {
+            episode: 10,
+            title: "Play It Again, Brian",
+            link: "https://short.ink/4JGVmaIf1",
+          },
+          {
+            episode: 11,
+            title: "The Former Life of Brian",
+            link: "https://short.ink/CXQDj2Yhc",
+          },
+          {
+            episode: 12,
+            title: "Long John Peter",
+            link: "https://short.ink/jwPRxyo7B",
+          },
+        ],
+        "Season 7": [
+          {
+            episode: 1,
+            title: "Love Blactually",
+            link: "https://short.ink/BfXuvQBLd",
+          },
+          {
+            episode: 2,
+            title: "I Dream of Jesus",
+            link: "https://short.ink/R96nv0MwH",
+          },
+          {
+            episode: 3,
+            title: "Road to Germany",
+            link: "https://short.ink/dCSKw7dN_",
+          },
+          {
+            episode: 4,
+            title: "Baby Not on Board",
+            link: "https://short.ink/JbhUlZTxO",
+          },
+          {
+            episode: 5,
+            title: "The Man with Two Brians",
+            link: "https://short.ink/xemQqei9v",
+          },
+          {
+            episode: 6,
+            title: "Tales of a Third Grade Nothing",
+            link: "https://short.ink/PqCcQlfMc",
+          },
+          {
+            episode: 7,
+            title: "Ocean's Three and a Half",
+            link: "https://short.ink/9NZwXaQvF",
+          },
+          {
+            episode: 8,
+            title: "Family Gay",
+            link: "https://short.ink/FQvBs9XvW",
+          },
+          {
+            episode: 9,
+            title: "The Juice Is Loose",
+            link: "https://short.ink/DHrMg5nsh",
+          },
+          {
+            episode: 10,
+            title: "FOX-y Lady",
+            link: "https://short.ink/vIZaqTyHS",
+          },
+          {
+            episode: 11,
+            title: "Not All Dogs Go to Heaven",
+            link: "https://short.ink/LL9vuVkcS",
+          },
+          {
+            episode: 12,
+            title: "420",
+            link: "https://short.ink/HYh9scw9k",
+          },
+          {
+            episode: 13,
+            title: "Stew-Roids",
+            link: "https://short.ink/yloQupJqz",
+          },
+          {
+            episode: 14,
+            title: "We Love You, Conrad",
+            link: "https://short.ink/x4LzsF8dj",
+          },
+          {
+            episode: 15,
+            title: "Three Kings",
+            link: "https://short.ink/8FwunHQtM",
+          },
+          {
+            episode: 16,
+            title: "Peter's Progress",
+            link: "https://short.ink/TXMuSctzP",
+          },
+        ],
+        "Season 8": [
+          {
+            episode: 1,
+            title: "Road to the Multiverse",
+            link: "https://short.ink/jp9NTeF7c",
+          },
+          {
+            episode: 2,
+            title: "Family Goy",
+            link: "https://short.ink/08RJXeoOy",
+          },
+          {
+            episode: 3,
+            title: "Spies Reminiscent of Us",
+            link: "https://short.ink/eaThbHfhZ",
+          },
+          {
+            episode: 4,
+            title: "Brian's Got a Brand New Bag",
+            link: "https://short.ink/rbINP5McX",
+          },
+          {
+            episode: 5,
+            title: "Hannah Banana",
+            link: "https://short.ink/TATWa2Ydw",
+          },
+          {
+            episode: 6,
+            title: "Quagmire's Baby",
+            link: "https://short.ink/F4bOBba6Q",
+          },
+          {
+            episode: 7,
+            title: "Jerome Is the New Black",
+            link: "https://short.ink/9gHvK9CzD",
+          },
+          {
+            episode: 8,
+            title: "Dog Gone",
+            link: "https://short.ink/dGShc_tHp",
+          },
+          {
+            episode: 9,
+            title: "Business Guy",
+            link: "https://short.ink/ryCZl9VcL",
+          },
+          {
+            episode: 10,
+            title: "Big Man on Hippocampus",
+            link: "https://short.ink/4P1Bvjo_H",
+          },
+          {
+            episode: 11,
+            title: "Dial Meg for Murder",
+            link: "https://short.ink/KjQu6xy4J",
+          },
+          {
+            episode: 12,
+            title: "Extra Large Medium",
+            link: "https://short.ink/nEQIimcNC",
+          },
+          {
+            episode: 13,
+            title: "Go, Stewie, Go!",
+            link: "https://short.ink/8AoIkGfFS",
+          },
+          {
+            episode: 14,
+            title: "Peter-assment",
+            link: "https://short.ink/YRqHzI7f8",
+          },
+          {
+            episode: 15,
+            title: "Brian Griffin's House of Payne",
+            link: "https://short.ink/VcOUlddIn",
+          },
+          {
+            episode: 16,
+            title: "April in Quahog",
+            link: "https://short.ink/zba8s2tyF",
+          },
+          {
+            episode: 17,
+            title: "Brian & Stewie",
+            link: "https://short.ink/pq4Rk6Fm8",
+          },
+          {
+            episode: 18,
+            title: "Quagmire's Dad",
+            link: "https://short.ink/r3EKJVuLQ",
+          },
+          {
+            episode: 19,
+            title: "The Splendid Source",
+            link: "https://short.ink/7BC2kWzeD",
+          },
+          {
+            episode: 20,
+            title: "Something, Something, Something, Dark Side",
+            link: "https://short.ink/5ep8a9YlJ",
+          },
+          {
+            episode: 21,
+            title: "Partial Terms of Endearment",
+            link: "https://short.ink/q6XmvgbuO",
+          },
+        ],
+        "Season 9": [
+          {
+            episode: 1,
+            title: "And Then There Were Fewer",
+            link: "https://short.ink/vA6NiLJ71",
+          },
+          {
+            episode: 2,
+            title: "Excellence in Broadcasting",
+            link: "https://short.ink/JGhMVMqiB",
+          },
+          {
+            episode: 3,
+            title: "Welcome Back, Carter",
+            link: "https://short.ink/ctJotatKP",
+          },
+          {
+            episode: 4,
+            title: "Halloween on Spooner Street",
+            link: "https://short.ink/F8TPvHlID",
+          },
+          {
+            episode: 5,
+            title: "Baby, You Knock Me Out",
+            link: "https://short.ink/XfJusFeqM",
+          },
+          {
+            episode: 6,
+            title: "Brian Writes a Bestseller",
+            link: "https://short.ink/1ehGbbHL_",
+          },
+          {
+            episode: 7,
+            title: "Road to the North Pole",
+            link: "https://short.ink/PHlgvbLtS",
+          },
+          {
+            episode: 8,
+            title: "New Kidney in Town",
+            link: "https://short.ink/pGv5Na_q2",
+          },
+          {
+            episode: 9,
+            title: "And I'm Joyce Kinney",
+            link: "https://short.ink/USVb5_T7Z",
+          },
+          {
+            episode: 10,
+            title: "Friends of Peter G.",
+            link: "https://short.ink/GYMgpbniN",
+          },
+          {
+            episode: 11,
+            title: "German Guy",
+            link: "https://short.ink/Pyig5jlPQ",
+          },
+          {
+            episode: 12,
+            title: "The Hand That Rocks the Wheelchair",
+            link: "https://short.ink/8_6a2HxjE",
+          },
+          {
+            episode: 13,
+            title: "Trading Places",
+            link: "https://short.ink/nfrCz9ZLz",
+          },
+          {
+            episode: 14,
+            title: "Tiegs for Two",
+            link: "https://short.ink/D8lwkVHRP",
+          },
+          {
+            episode: 15,
+            title: "Brothers & Sisters",
+            link: "https://short.ink/xqTaMVmNE",
+          },
+          {
+            episode: 16,
+            title: "The Big Bang Theory",
+            link: "https://short.ink/FfhFucRpa",
+          },
+          {
+            episode: 17,
+            title: "Foreign Affairs",
+            link: "https://short.ink/fGMnl7AjQ",
+          },
+        ],
+        "Season 10": [
+          {
+            episode: 1,
+            title: "Lottery Fever",
+            link: "https://short.ink/nfrCz9ZLz",
+          },
+          {
+            episode: 2,
+            title: "Seahorse Seashell Party",
+            link: "https://short.ink/D8lwkVHRP",
+          },
+          {
+            episode: 3,
+            title: "Screams of Silence: The Story of Brenda Q",
+            link: "https://short.ink/xqTaMVmNE",
+          },
+          {
+            episode: 4,
+            title: "Stewie Goes for a Drive",
+            link: "https://short.ink/FfhFucRpa",
+          },
+          {
+            episode: 5,
+            title: "Back to the Pilot",
+            link: "https://short.ink/fGMnl7AjQ",
+          },
+          {
+            episode: 6,
+            title: "Thanksgiving",
+            link: "https://short.ink/DFu_zLqQ4",
+          },
+          {
+            episode: 7,
+            title: "Amish Guy",
+            link: "https://short.ink/7eN_qtp87",
+          },
+          {
+            episode: 8,
+            title: "Cool Hand Peter",
+            link: "https://short.ink/98BJbC0Fw",
+          },
+          {
+            episode: 9,
+            title: "Grumpy Old Man",
+            link: "https://short.ink/7Q4XotDAo",
+          },
+          {
+            episode: 10,
+            title: "Quagmire and Meg",
+            link: "https://short.ink/FrrwCdNRD",
+          },
+          {
+            episode: 11,
+            title: "The Blind Side",
+            link: "https://short.ink/HN9tCdFTz",
+          },
+          {
+            episode: 12,
+            title: "Livin' on a Prayer",
+            link: "https://short.ink/BZ6RddnT2",
+          },
+          {
+            episode: 13,
+            title: "Tom Tucker: The Man and His Dream",
+            link: "https://short.ink/CNuVhdn4L",
+          },
+          {
+            episode: 14,
+            title: "Be Careful What You Fish For",
+            link: "https://short.ink/ySaFddtv5",
+          },
+          {
+            episode: 15,
+            title: "Burning Down the Bayit",
+            link: "https://short.ink/DNKLjdX56",
+          },
+          {
+            episode: 16,
+            title: "Killer Queen",
+            link: "https://short.ink/wPMLudnpV",
+          },
+          {
+            episode: 17,
+            title: "Forget-Me-Not",
+            link: "https://short.ink/6sIKtdnsr",
+          },
+          {
+            episode: 18,
+            title: "You Can't Do That on Television, Peter",
+            link: "https://short.ink/PXvMidw7Z",
+          },
+          {
+            episode: 19,
+            title: "Mr. & Mrs. Stewie",
+            link: "https://short.ink/FSWLjd6sz",
+          },
+          {
+            episode: 20,
+            title: "Leggo My Meg-O",
+            link: "https://short.ink/KnNLKdtDs",
+          },
+          {
+            episode: 21,
+            title: "Tea Peter",
+            link: "https://short.ink/CjTL-d8RQ",
+          },
+          {
+            episode: 22,
+            title: "Family Guy Viewer Mail #2",
+            link: "https://short.ink/HnFLmdnQZ",
+          },
+          {
+            episode: 23,
+            title: "Internal Affairs",
+            link: "https://short.ink/VbHLqdh6W",
+          },
+        ],
+        "Season 11": [
+          {
+            episode: 1,
+            title: "Into Fat Air",
+            link: "https://short.ink/ZaTVeuamS",
+          },
+          {
+            episode: 2,
+            title: "Ratings Guy",
+            link: "https://short.ink/P7AXxu1MD",
+          },
+          {
+            episode: 3,
+            title: "The Old Man and the Big 'C'",
+            link: "https://short.ink/tDKVpW5bS",
+          },
+          {
+            episode: 4,
+            title: "Yug Ylimaf",
+            link: "https://short.ink/DdIVvG9sO",
+          },
+          {
+            episode: 5,
+            title: "Joe's Revenge",
+            link: "https://short.ink/n9IVxGzZQ",
+          },
+          {
+            episode: 6,
+            title: "Lois Comes Out of Her Shell",
+            link: "https://short.ink/6FMgcGzWO",
+          },
+          {
+            episode: 7,
+            title: "Friends Without Benefits",
+            link: "https://short.ink/ISGVxGZIr",
+          },
+          {
+            episode: 8,
+            title: "Jesus, Mary and Joseph!",
+            link: "https://short.ink/oTIVpG9bM",
+          },
+          {
+            episode: 9,
+            title: "Space Cadet",
+            link: "https://short.ink/pTIVsG1WQ",
+          },
+          {
+            episode: 10,
+            title: "Brian's Play",
+            link: "https://short.ink/HTIVuGgHK",
+          },
+          {
+            episode: 11,
+            title: "The Giggity Wife",
+            link: "https://short.ink/AtIVwG9oB",
+          },
+          {
+            episode: 12,
+            title: "Valentine's Day in Quahog",
+            link: "https://short.ink/nTVVeG0uL",
+          },
+          {
+            episode: 13,
+            title: "Chris Cross",
+            link: "https://short.ink/YtIVuGzZI",
+          },
+          {
+            episode: 14,
+            title: "Call Girl",
+            link: "https://short.ink/vSIVoG1DM",
+          },
+          {
+            episode: 15,
+            title: "Turban Cowboy",
+            link: "https://short.ink/OSIVbG1IN",
+          },
+          {
+            episode: 16,
+            title: "12 and a Half Angry Men",
+            link: "https://short.ink/1RIVoG0MM",
+          },
+          {
+            episode: 17,
+            title: "Bigfat",
+            link: "https://short.ink/5FIVeG0ZI",
+          },
+          {
+            episode: 18,
+            title: "Total Recall",
+            link: "https://short.ink/5TIVeGzHM",
+          },
+          {
+            episode: 19,
+            title: "Save the Clam",
+            link: "https://short.ink/zQIVeGz2d",
+          },
+          {
+            episode: 20,
+            title: "Farmer Guy",
+            link: "https://short.ink/K1IVbGzGM",
+          },
+          {
+            episode: 21,
+            title: "Roads to Vegas",
+            link: "https://short.ink/SaIVeG1aO",
+          },
+          {
+            episode: 22,
+            title: "No Country Club for Old Men",
+            link: "https://short.ink/K3IVbG0GM",
+          },
+        ],
+        "Season 12": [
+          {
+            episode: 1,
+            title: "Finders Keepers",
+            link: "https://short.ink/pOIVzXZrs",
+          },
+          {
+            episode: 2,
+            title: "Vestigial Peter",
+            link: "https://short.ink/rOIV5XWlu",
+          },
+          {
+            episode: 3,
+            title: "Quagmire's Quagmire",
+            link: "https://short.ink/XOIV8XbCp",
+          },
+          {
+            episode: 4,
+            title: "A Fistful of Meg",
+            link: "https://short.ink/YOIVzXbVt",
+          },
+          {
+            episode: 5,
+            title: "Boopa-dee Bappa-dee",
+            link: "https://short.ink/UOIV_XZLL",
+          },
+          {
+            episode: 6,
+            title: "Life of Brian",
+            link: "https://short.ink/GOIV8XZDa",
+          },
+          {
+            episode: 7,
+            title: "Into Harmony's Way",
+            link: "https://short.ink/HOIV8XbTc",
+          },
+          {
+            episode: 8,
+            title: "Christmas Guy",
+            link: "https://short.ink/IOIVzXbK2",
+          },
+          {
+            episode: 9,
+            title: "Peter Problems",
+            link: "https://short.ink/8OIV8XbLy",
+          },
+          {
+            episode: 10,
+            title: "Grimm Job",
+            link: "https://short.ink/aOIV8XbrW",
+          },
+          {
+            episode: 11,
+            title: "Brian's a Bad Father",
+            link: "https://short.ink/mOIV9Xbl2",
+          },
+          {
+            episode: 12,
+            title: "Mom's the Word",
+            link: "https://short.ink/uOIV_XZr1",
+          },
+          {
+            episode: 13,
+            title: "3 Acts of God",
+            link: "https://short.ink/xOIV_XWbw",
+          },
+          {
+            episode: 14,
+            title: "Fresh Heir",
+            link: "https://short.ink/2PIV9Xbni",
+          },
+          {
+            episode: 15,
+            title: "Secondhand Spoke",
+            link: "https://short.ink/6PIV8XWj4",
+          },
+          {
+            episode: 16,
+            title: "Herpe the Love Sore",
+            link: "https://short.ink/DPIV9Xb6n",
+          },
+          {
+            episode: 17,
+            title: "The Most Interesting Man in the World",
+            link: "https://short.ink/QPIV_XbUS",
+          },
+          {
+            episode: 18,
+            title: "Baby Got Black",
+            link: "https://short.ink/RPIV8XZZ6",
+          },
+          {
+            episode: 19,
+            title: "Meg Stinks!",
+            link: "https://short.ink/WPIV9Xb1X",
+          },
+          {
+            episode: 20,
+            title: "He's Bla-ack!",
+            link: "https://short.ink/YPIV_XZJW",
+          },
+          {
+            episode: 21,
+            title: "Chap Stewie",
+            link: "https://short.ink/aPIV_XZQn",
+          },
+        ],
+        "Season 13": [
+          {
+            episode: 1,
+            title: "The Simpsons Guy",
+            link: "https://short.ink/gPIV9XZwd",
+          },
+          {
+            episode: 2,
+            title: "Book of Joe",
+            link: "https://short.ink/jPIV9XbrH",
+          },
+          {
+            episode: 3,
+            title: "Baking Bad",
+            link: "https://short.ink/7eN_qtp87",
+          },
+          {
+            episode: 4,
+            title: "Brian the Closer",
+            link: "https://short.ink/98BJbC0Fw",
+          },
+          {
+            episode: 5,
+            title: "Turkey Guys",
+            link: "https://short.ink/7Q4XotDAo",
+          },
+          {
+            episode: 6,
+            title: "The 2000-Year-Old Virgin",
+            link: "https://short.ink/FrrwCdNRD",
+          },
+          {
+            episode: 7,
+            title: "Stewie, Chris & Brian's Excellent Adventure",
+            link: "https://short.ink/HN9tCdFTz",
+          },
+          {
+            episode: 8,
+            title: "Our Idiot Brian",
+            link: "https://short.ink/BZ6RddnT2",
+          },
+          {
+            episode: 9,
+            title: "This Little Piggy",
+            link: "https://short.ink/CNuVhdn4L",
+          },
+          {
+            episode: 10,
+            title: "Quagmire's Mom",
+            link: "https://short.ink/ySaFddtv5",
+          },
+          {
+            episode: 11,
+            title: "Encyclopedia Griffin",
+            link: "https://short.ink/DNKLjdX56",
+          },
+          {
+            episode: 12,
+            title: "Stewie Is Enceinte",
+            link: "https://short.ink/wPMLudnpV",
+          },
+          {
+            episode: 13,
+            title: "Dr. C & the Women",
+            link: "https://short.ink/6sIKtdnsr",
+          },
+          {
+            episode: 14,
+            title: "#JOLO",
+            link: "https://short.ink/PXvMidw7Z",
+          },
+          {
+            episode: 15,
+            title: "Once Bitten",
+            link: "https://short.ink/FSWLjd6sz",
+          },
+          {
+            episode: 16,
+            title: "Roasted Guy",
+            link: "https://short.ink/KnNLKdtDs",
+          },
+          {
+            episode: 17,
+            title: "Fighting Irish",
+            link: "https://short.ink/CjTL-d8RQ",
+          },
+          {
+            episode: 18,
+            title: "Take My Wife",
+            link: "https://short.ink/HnFLmdnQZ",
+          },
+        ],
+        "Season 14": [
+          {
+            episode: 1,
+            title: "Pilling Them Softly",
+            link: "https://short.ink/He3vFd7pR",
+          },
+          {
+            episode: 2,
+            title: "Papa Has a Rollin' Son",
+            link: "https://short.ink/4qX5qdmpJ",
+          },
+          {
+            episode: 3,
+            title: "Guy, Robot",
+            link: "https://short.ink/0cv5Ad8Q9",
+          },
+          {
+            episode: 4,
+            title: "Peternormal Activity",
+            link: "https://short.ink/HeQ5ud7w8",
+          },
+          {
+            episode: 5,
+            title: "Peter, Chris, & Brian",
+            link: "https://short.ink/Vc3ucdspW",
+          },
+          {
+            episode: 6,
+            title: "Peter's Sister",
+            link: "https://short.ink/Aqv5Ad7pV",
+          },
+          {
+            episode: 7,
+            title: "Hot Pocket-Dial",
+            link: "https://short.ink/CaQ5udnpd",
+          },
+          {
+            episode: 8,
+            title: "Brokeback Swanson",
+            link: "https://short.ink/qpX5qd8wN",
+          },
+          {
+            episode: 9,
+            title: "A Shot in the Dark",
+            link: "https://short.ink/JpX5qd7pR",
+          },
+          {
+            episode: 10,
+            title: "Candy, Quahog Marshmallow",
+            link: "https://short.ink/NpX5qd7wJ",
+          },
+          {
+            episode: 11,
+            title: "The Peanut Butter Kid",
+            link: "https://short.ink/YpX5qd8w9",
+          },
+          {
+            episode: 12,
+            title: "Scammed Yankees",
+            link: "https://short.ink/CpX5qd7pR",
+          },
+          {
+            episode: 13,
+            title: "An App a Day",
+            link: "https://short.ink/tpX5qd7J4",
+          },
+          {
+            episode: 14,
+            title: "Underage Peter",
+            link: "https://short.ink/jpX5qd8QL",
+          },
+          {
+            episode: 15,
+            title: "A Lot Going on Upstairs",
+            link: "https://short.ink/YQX5ud7nW",
+          },
+          {
+            episode: 16,
+            title: "The Heartbreak Dog",
+            link: "https://short.ink/NmG5udnP9",
+          },
+          {
+            episode: 17,
+            title: "Take a Letter",
+            link: "https://short.ink/MpX5qd7wJ",
+          },
+          {
+            episode: 18,
+            title: "The New Adventures of Old Tom",
+            link: "https://short.ink/qYQ5udnpW",
+          },
+          {
+            episode: 19,
+            title: "Run, Chris, Run",
+            link: "https://short.ink/5YQ5ud8Q1",
+          },
+          {
+            episode: 20,
+            title: "Road to India",
+            link: "https://short.ink/jeQ5ud7nN",
+          },
+        ],
+        "Season 15": [
+          {
+            episode: 1,
+            title: "The Boys in the Band",
+            link: "https://short.ink/jpX5qd8QL",
+          },
+          {
+            episode: 2,
+            title: "Bookie of the Year",
+            link: "https://short.ink/YQX5ud7nW",
+          },
+          {
+            episode: 3,
+            title: "American Gigg-olo",
+            link: "https://short.ink/NmG5udnP9",
+          },
+          {
+            episode: 4,
+            title: "Inside Family Guy",
+            link: "https://short.ink/MpX5qd7wJ",
+          },
+          {
+            episode: 5,
+            title: "Chris Has Got a Date, Date, Date, Date, Date",
+            link: "https://short.ink/qYQ5udnpW",
+          },
+          {
+            episode: 6,
+            title: "Hot Shots",
+            link: "https://short.ink/5YQ5ud8Q1",
+          },
+          {
+            episode: 7,
+            title: "High School English",
+            link: "https://short.ink/jeQ5ud7nN",
+          },
+          {
+            episode: 8,
+            title: "Carter and Tricia",
+            link: "https://short.ink/ZmG5udnpd",
+          },
+          {
+            episode: 9,
+            title: "How the Griffin Stole Christmas",
+            link: "https://short.ink/tQG5udnQO",
+          },
+          {
+            episode: 10,
+            title: "Passenger Fatty-Seven",
+            link: "https://short.ink/tmG5ud8Q9",
+          },
+          {
+            episode: 11,
+            title: "Gronkowsbees",
+            link: "https://short.ink/qmG5ud7PQ",
+          },
+          {
+            episode: 12,
+            title: "Peter's Def Jam",
+            link: "https://short.ink/vYQ5ud8pR",
+          },
+          {
+            episode: 13,
+            title: "The Finer Strings",
+            link: "https://short.ink/oQG5ud7nN",
+          },
+          {
+            episode: 14,
+            title: "The Dating Game",
+            link: "https://short.ink/0XQ5ud7pW",
+          },
+          {
+            episode: 15,
+            title: "Cop and a Half-Wit",
+            link: "https://short.ink/zYQ5udnpd",
+          },
+          {
+            episode: 16,
+            title: "Saturated Fat Guy",
+            link: "https://short.ink/YmG5udnp4",
+          },
+          {
+            episode: 17,
+            title: "Peter's Lost Youth",
+            link: "https://short.ink/RmG5ud7pN",
+          },
+          {
+            episode: 18,
+            title: "The Peter Principal",
+            link: "https://short.ink/QGQ5udnpN",
+          },
+          {
+            episode: 19,
+            title: "Dearly Deported",
+            link: "https://short.ink/KGQ5ud7nR",
+          },
+          {
+            episode: 20,
+            title: "A House Full of Peters",
+            link: "https://short.ink/vGQ5udnpV",
+          },
+        ],
+        "Season 16": [
+          {
+            episode: 1,
+            title: "Emmy-Winning episode",
+            link: "https://short.ink/vGQ5udnpV",
+          },
+          {
+            episode: 2,
+            title: "Foxx in the Men House",
+            link: "https://short.ink/0fW5U27pO",
+          },
+          {
+            episode: 3,
+            title: "Nanny Goats",
+            link: "https://short.ink/AfW5U27wN",
+          },
+          {
+            episode: 4,
+            title: "Follow the Money",
+            link: "https://short.ink/tWQ5U2npR",
+          },
+          {
+            episode: 5,
+            title: "Three Directors",
+            link: "https://short.ink/5YW5U28Qd",
+          },
+          {
+            episode: 6,
+            title: "The D in Apartment 23",
+            link: "https://short.ink/7YW5U27nP",
+          },
+          {
+            episode: 7,
+            title: "Petey IV",
+            link: "https://short.ink/NYW5U28Q1",
+          },
+          {
+            episode: 8,
+            title: "Crimes and Meg's Demeanor",
+            link: "https://short.ink/RYW5U2npQ",
+          },
+          {
+            episode: 9,
+            title: "Don't Be a Dickens at Christmas",
+            link: "https://short.ink/ZYW5U27nw",
+          },
+          {
+            episode: 10,
+            title: "Boy (Dog) Meets Girl (Dog)",
+            link: "https://short.ink/uPR9L1tbfr",
+          },
+          {
+            episode: 11,
+            title: "Dog Bites Bear",
+            link: "https://short.ink/j53SbNpYk",
+          },
+          {
+            episode: 12,
+            title: "Send in Stewie, Please",
+            link: "https://short.ink/QO0d_oe9L",
+          },
+          {
+            episode: 13,
+            title: "V Is for Mystery",
+            link: "https://short.ink/bVXOXqZYD",
+          },
+          {
+            episode: 14,
+            title: "Veteran Guy",
+            link: "https://short.ink/oLPytDcC7",
+          },
+          {
+            episode: 15,
+            title: "The Woof of Wall Street",
+            link: "https://short.ink/ZPDRzwW5u",
+          },
+          {
+            episode: 16,
+            title: "Family Guy Through the Years",
+            link: "https://short.ink/qXSCCwZhr",
+          },
+          {
+            episode: 17,
+            title: "Switch the Flip",
+            link: "https://short.ink/C4pwaY6eJi",
+          },
+          {
+            episode: 18,
+            title: "HTTPete",
+            link: "https://short.ink/2eKYVOxAk",
+          },
+          {
+            episode: 19,
+            title: "The Unkindest Cut",
+            link: "https://short.ink/tLFjdr43J",
+          },
+          {
+            episode: 20,
+            title: "Are You There God? It's Me, Peter",
+            link: "https://short.ink/GoQiwHw-3",
+          },
+        ],
+        "Season 17": [
+          {
+            episode: 1,
+            title: "Married With Cancer",
+            link: "https://short.ink/mhdzFZfRx",
+          },
+          {
+            episode: 2,
+            title: "Dog Walking Dead",
+            link: "https://short.ink/HExX4fW-8",
+          },
+          {
+            episode: 3,
+            title: "Pal Stewie",
+            link: "https://short.ink/mzG5PtydP",
+          },
+          {
+            episode: 4,
+            title: "Big Trouble In Little Quahog",
+            link: "https://short.ink/Yw7lT5hgN",
+          },
+          {
+            episode: 5,
+            title: "Regarding Carter",
+            link: "https://short.ink/dcnvObewMC",
+          },
+          {
+            episode: 6,
+            title: "Stand By Meg",
+            link: "https://short.ink/9IeJhAinW",
+          },
+          {
+            episode: 7,
+            title: "The Griffin Winter Games",
+            link: "https://short.ink/u6BrDbY6E",
+          },
+          {
+            episode: 8,
+            title: "Con Heiress",
+            link: "https://short.ink/PaU1aUTVf",
+          },
+          {
+            episode: 9,
+            title: "Pawtucket Pete",
+            link: "https://short.ink/ZoZZlRZ0r",
+          },
+          {
+            episode: 10,
+            title: "Heftly Shades of Gray",
+            link: "https://short.ink/SVpDklQZIh",
+          },
+          {
+            episode: 11,
+            title: "Trump Guy",
+            link: "https://short.ink/5nJsaBHAy",
+          },
+          {
+            episode: 12,
+            title: "Bri, Robot",
+            link: "https://short.ink/6uczBAd-P",
+          },
+          {
+            episode: 13,
+            title: "Trans-Fat",
+            link: "https://short.ink/S695sTq-F",
+          },
+          {
+            episode: 14,
+            title: "Family Guy Lite",
+            link: "https://short.ink/hmSzHP-XP",
+          },
+          {
+            episode: 15,
+            title: "No Gigity, No Doubt",
+            link: "https://short.ink/NHz7byVSo",
+          },
+          {
+            episode: 16,
+            title: "You Can't Handle Booth",
+            link: "https://short.ink/uhGP5leGy",
+          },
+          {
+            episode: 17,
+            title: "Island Adventure",
+            link: "https://short.ink/Cxil97k9t",
+          },
+          {
+            episode: 18,
+            title: "Throw It Away",
+            link: "https://short.ink/CMNM5AGvM",
+          },
+          {
+            episode: 19,
+            title: "Girl, Internetted",
+            link: "https://short.ink/q-Zd8ObkL",
+          },
+          {
+            episode: 20,
+            title: "Adam West High",
+            link: "https://short.ink/SQ8_bM9yv",
+          },
+        ],
+        "Season 18": [
+          {
+            episode: 1,
+            title: "Yatch Rocky",
+            link: "https://short.ink/b9UNCgtrv",
+          },
+          {
+            episode: 2,
+            title: "Bri-Da",
+            link: "https://short.ink/LAtMlzV5N",
+          },
+          {
+            episode: 3,
+            title: "Absolutely Babulous",
+            link: "https://short.ink/_UjDRUhcN",
+          },
+          {
+            episode: 4,
+            title: "Disney's The Reboot",
+            link: "https://short.ink/R9IZNGgW7",
+          },
+          {
+            episode: 5,
+            title: "Cat Fight",
+            link: "https://short.ink/rdEeUvP3f",
+          },
+          {
+            episode: 6,
+            title: "Peter and Lois' Wedding",
+            link: "https://short.ink/pOr0NQG4m",
+          },
+          {
+            episode: 7,
+            title: "Heart Burn",
+            link: "https://short.ink/zG__ZCqBm",
+          },
+          {
+            episode: 8,
+            title: "Shanksgiving",
+            link: "https://short.ink/oiT-aDIK3",
+          },
+          {
+            episode: 9,
+            title: "Christmas is coming",
+            link: "https://short.ink/1My-qJ_hw",
+          },
+          {
+            episode: 10,
+            title: "Connie's Celica",
+            link: "https://short.ink/DKH_EA8EO",
+          },
+          {
+            episode: 11,
+            title: "Short Cuts",
+            link: "https://short.ink/cEX-G1o_V",
+          },
+          {
+            episode: 12,
+            title: "Undergrounded",
+            link: "https://short.ink/Ddgsv5aqz",
+          },
+          {
+            episode: 13,
+            title: "Rich Old Stewie",
+            link: "https://short.ink/0twqsd7TBZ",
+          },
+          {
+            episode: 14,
+            title: "The Movement",
+            link: "https://short.ink/ZlfK44vfG",
+          },
+          {
+            episode: 15,
+            title: "Baby Stewie",
+            link: "https://short.ink/1Y6qY_i95",
+          },
+          {
+            episode: 16,
+            title: "Start Me Up",
+            link: "https://short.ink/3kh7pkOku",
+          },
+          {
+            episode: 17,
+            title: "Coma Guy",
+            link: "https://short.ink/4dx1d2hRJ",
+          },
+          {
+            episode: 18,
+            title: "Better Off Meg",
+            link: "https://short.ink/jDuBCQ3O92",
+          },
+          {
+            episode: 19,
+            title: "Holy Bible",
+            link: "https://short.ink/5uFMIvJIY",
+          },
+          {
+            episode: 20,
+            title: "Movin' in (Principal Shepherd's Song)",
+            link: "https://short.ink/tL4UzQHI6",
+          },
+        ],
+        "Season 19": [
+          {
+            episode: 1,
+            title: "Stewie's First Word",
+            link: "https://short.ink/pokSIUJmu",
+          },
+          {
+            episode: 2,
+            title: "The Talented Mr. Stewie",
+            link: "https://short.ink/ab5kMc8QG",
+          },
+          {
+            episode: 3,
+            title: "Boys and Squirrels",
+            link: "https://short.ink/RCzMaAJoJ",
+          },
+          {
+            episode: 4,
+            title: "Cutawayland",
+            link: "https://short.ink/jlLHBokW7",
+          },
+          {
+            episode: 5,
+            title: "La Famiglia Guy",
+            link: "https://short.ink/oMXRdCM1L",
+          },
+          {
+            episode: 6,
+            title: "Meg's Wedding",
+            link: "https://short.ink/zTGxA82r5",
+          },
+          {
+            episode: 7,
+            title: "Wild Wild West",
+            link: "https://short.ink/6WWeZ9EcN",
+          },
+          {
+            episode: 8,
+            title: "Pawtucket Pat",
+            link: "https://short.ink/qKMn0ECQE",
+          },
+          {
+            episode: 9,
+            title: "The First No L",
+            link: "https://short.ink/SdxDMCjAt",
+          },
+          {
+            episode: 10,
+            title: "Fecal Matters",
+            link: "https://short.ink/ly5avLV6I",
+          },
+          {
+            episode: 11,
+            title: "Boy's Best Friend",
+            link: "https://short.ink/FUQwjnZxy",
+          },
+          {
+            episode: 12,
+            title: "And Then There's Fraud",
+            link: "https://short.ink/IbijYgq1r",
+          },
+          {
+            episode: 13,
+            title: "PeTerminator",
+            link: "https://short.ink/jHaKEKMWh2",
+          },
+          {
+            episode: 14,
+            title: "The Marrying Kind",
+            link: "https://short.ink/qNVs_c1z0",
+          },
+          {
+            episode: 15,
+            title: "Customer of the Week",
+            link: "https://short.ink/62DXSAg1K",
+          },
+          {
+            episode: 16,
+            title: "Who's Brian Now",
+            link: "https://short.ink/jvwkhETk6",
+          },
+          {
+            episode: 17,
+            title: "The Young Parent Trap",
+            link: "https://short.ink/vev3877Vq",
+          },
+          {
+            episode: 18,
+            title: "Meg Goes To College",
+            link: "https://short.ink/9BSVtQb3G",
+          },
+          {
+            episode: 19,
+            title: "Family Cat",
+            link: "https://short.ink/dGy-rZ0lW",
+          },
+          {
+            episode: 20,
+            title: "Tales of Former Sports Glory",
+            link: "https://short.ink/rkc35d63f",
+          },
+        ],
+        "Season 20": [
+          {
+            episode: 1,
+            title: "LASIK",
+            link: "https://short.ink/0t8viRL8V",
+          },
+          {
+            episode: 2,
+            title: "Rock Hard",
+            link: "https://short.ink/PmLe26Lvb",
+          },
+          {
+            episode: 3,
+            title: "Must Love Dogs",
+            link: "https://short.ink/4rsT8cogyz",
+          },
+          {
+            episode: 4,
+            title: "80s Guys",
+            link: "https://short.ink/vrQ-AlLqL",
+          },
+          {
+            episode: 5,
+            title: "Brief Encounter",
+            link: "https://short.ink/0vBR7FVlM",
+          },
+          {
+            episode: 6,
+            title: "Cootie & The Blowhard",
+            link: "https://short.ink/jYvBGzQnN",
+          },
+          {
+            episode: 7,
+            title: "Peterschmidt Manor",
+            link: "https://short.ink/PjJ8DbupL",
+          },
+          {
+            episode: 8,
+            title: "The Birthday Bootlegger",
+            link: "https://short.ink/NDsktCYbQ",
+          },
+          {
+            episode: 9,
+            title: "The Fatman Always Rings Twice",
+            link: "https://short.ink/rlCrwHMjZ",
+          },
+          {
+            episode: 10,
+            title: "Christmas Crime",
+            link: "https://short.ink/3B46xCIeP",
+          },
+          {
+            episode: 11,
+            title: "Mister Act",
+            link: "https://short.ink/o4xQK6I55",
+          },
+          {
+            episode: 12,
+            title: "The Lois Quagmire",
+            link: "https://short.ink/EdxddU1BK",
+          },
+          {
+            episode: 13,
+            title: "Lawyer Guy",
+            link: "https://short.ink/pdsspKha2",
+          },
+          {
+            episode: 14,
+            title: "HBO-No",
+            link: "https://short.ink/QqKH5bzq7",
+          },
+          {
+            episode: 15,
+            title: "Hard Boiled Meg",
+            link: "https://short.ink/DR6V8z7kT",
+          },
+          {
+            episode: 16,
+            title: "Prescription Heroine",
+            link: "https://short.ink/jvwkhETk6",
+          },
+          {
+            episode: 17,
+            title: "All About Alana",
+            link: "https://short.ink/xXgur6nrbE",
+          },
+          {
+            episode: 18,
+            title: "Girlfriend, Eh?",
+            link: "https://short.ink/kkBhhd79c",
+          },
+          {
+            episode: 19,
+            title: "First Blood",
+            link: "https://short.ink/H2MEK5BIn",
+          },
+          {
+            episode: 20,
+            title: "The Jersey Bore",
+            link: "https://short.ink/N2zCD4jB2",
+          },
+        ],
+        "Season 21": [
+          {
+            episode: 1,
+            title: "Oscar Guy",
+            link: "https://short.ink/WZ_rhGL9c",
+          },
+          {
+            episode: 2,
+            title: "Bend or Blockbuster",
+            link: "https://short.ink/ApRlUKjd5",
+          },
+          {
+            episode: 3,
+            title: "A Wife-Changing Experience",
+            link: "https://short.ink/zy8Gj21W5",
+          },
+          {
+            episode: 4,
+            title: "The Munchurian Candidate",
+            link: "https://short.ink/kvEaROYbM",
+          },
+          {
+            episode: 5,
+            title: "Unzipped Code",
+            link: "https://short.ink/B8neqAUoz",
+          },
+          {
+            episode: 6,
+            title: "Happy Holo-ween",
+            link: "https://short.ink/jMnFeg5rG",
+          },
+          {
+            episode: 7,
+            title: "The Stewaway",
+            link: "https://short.ink/6g8c_xp5f",
+          },
+          {
+            episode: 8,
+            title: "Get Stewie",
+            link: "https://short.ink/4hByBTaHZ",
+          },
+          {
+            episode: 9,
+            title: "Carry Knowledge",
+            link: "https://short.ink/MVeq4AuX8",
+          },
+          {
+            episode: 10,
+            title: "The Candidate",
+            link: "https://short.ink/skuw4w-SK",
+          },
+          {
+            episode: 11,
+            title: "Love Story Guy",
+            link: "https://short.ink/xOZHQzrOm",
+          },
+          {
+            episode: 12,
+            title: "Old West",
+            link: "https://short.ink/wBm3A_FNi",
+          },
+          {
+            episode: 13,
+            title: "Single White Dad",
+            link: "https://short.ink/9EwaiEB7M",
+          },
+          {
+            episode: 14,
+            title: "White Meg Can't Jump",
+            link: "https://short.ink/eaWYqTId0",
+          },
+          {
+            episode: 15,
+            title: "Adoption",
+            link: "https://short.ink/BFjtft42l",
+          },
+          {
+            episode: 16,
+            title: "The Bird Reich",
+            link: "https://short.ink/ZYVYef3O3",
+          },
+          {
+            episode: 17,
+            title: "Island Adventure",
+            link: "https://short.ink/jwkBpOC2F",
+          },
+          {
+            episode: 18,
+            title: "Vat Man & Rob' Em",
+            link: "https://short.ink/3IeoMSLx9",
+          },
+          {
+            episode: 19,
+            title: "From Russian With Love",
+            link: "https://short.ink/Jq6GUoOGz",
+          },
+          {
+            episode: 20,
+            title: "Adult Education",
+            link: "\nhttps://short.ink/Uup2dXBbq",
+          },
+        ],
+        "Season 22": [
+          {
+            episode: 1,
+            title: "Fertilized Megg",
+            link: "https://short.ink/QHz_g7j1T",
+          },
+          {
+            episode: 2,
+            title: "Supermarket Pete",
+            link: "https://short.ink/o_gmKPI94J",
+          },
+          {
+            episode: 3,
+            title: "A Stache From The Past",
+            link: "https://short.ink/QHz_g7j1T",
+          },
+          {
+            episode: 4,
+            title: "Old World Harm",
+            link: "https://short.ink/JO3o1QiD5",
+          },
+          {
+            episode: 5,
+            title: "Baby, It's Cold Inside",
+            link: "https://short.ink/OeWvWEnrka",
+          },
+        ],
+      };
+
+      const seasonSelect = document.getElementById("seasonSelect");
+      const episodeSelect = document.getElementById("episodeSelect");
+      const videoContainer = document.getElementById("videoContainer");
+
+      // Populate season select
+      for (let season in episodes) {
+        let option = document.createElement("option");
+        option.value = season;
+        option.textContent = season;
+        seasonSelect.appendChild(option);
+      }
+
+      // Update episode select when season changes
+      seasonSelect.addEventListener("change", function () {
+        episodeSelect.innerHTML = '<option value="">Select Episode</option>';
+        let season = this.value;
+        if (season) {
+          episodes[season].forEach((episode, index) => {
+            let option = document.createElement("option");
+            option.value = index + 1;
+            option.textContent = `${episode.episode}: ${episode.title}`;
+            episodeSelect.appendChild(option);
+          });
+        }
+      });
+
+      // Display video when episode is selected
+      episodeSelect.addEventListener("change", function () {
+        if (this.value) {
+          let season = seasonSelect.value;
+          let episodeIndex = parseInt(this.value) - 1;
+          let episode = episodes[season][episodeIndex];
+          let videoUrl = episode.link;
+          videoContainer.innerHTML = `<iframe src="${videoUrl}" allowfullscreen></iframe>`;
+        } else {
+          videoContainer.innerHTML = `<p>Please select a season and episode to watch.</p>`;
+        }
+      });
+    </script>
+  </body>
+</html>
